@@ -24,9 +24,13 @@ namespace bustub {
 
 INDEX_TEMPLATE_ARGUMENTS
 class IndexIterator {
+  using LeafPage = BPlusTreeLeafPage<KeyType, ValueType, KeyComparator>;
  public:
   // you may define your own constructor based on your member variables
-  IndexIterator();
+  IndexIterator(const LeafPage *leaf, int index, BufferPoolManager *bpm,
+                const KeyComparator &comparator)  // NOLINT
+      : leaf_(leaf), index_(index), bpm_(bpm),comparator_(comparator) {}  // NOLINT
+  
   ~IndexIterator();  // NOLINT
 
   auto IsEnd() -> bool;
@@ -35,12 +39,28 @@ class IndexIterator {
 
   auto operator++() -> IndexIterator &;
 
-  auto operator==(const IndexIterator &itr) const -> bool { UNIMPLEMENTED("TODO(P2): Add implementation."); }
+  auto operator==(const IndexIterator &itr) const -> bool { //UNIMPLEMENTED("TODO(P2): Add implementation."); 
+  if(leaf_==itr.leaf_ && index_==itr.index_) {
+    return true; // 如果当前迭代器和传入的迭代器指向同一位置，返回 true
+  } else {
+    return false; // 否则返回 false
+  }
+  }
+  auto operator!=(const IndexIterator &itr) const -> bool { //UNIMPLEMENTED("TODO(P2): Add implementation.");
+    
+  if(leaf_!=itr.leaf_ || index_!=itr.index_) {
+    return true; // 如果当前迭代器和传入的迭代器指向不同位置，返回 true
+  } else {
+    return false; // 否则返回 false
+  }
+  }
 
-  auto operator!=(const IndexIterator &itr) const -> bool { UNIMPLEMENTED("TODO(P2): Add implementation."); }
-
- private:
+ //private:
   // add your own private member variables here
+  const LeafPage *leaf_;  // 当前叶子页面
+  int index_;         // 当前索引位置
+  BufferPoolManager *bpm_;  // 缓冲池管理器
+  KeyComparator comparator_;
 };
 
 }  // namespace bustub

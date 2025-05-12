@@ -126,7 +126,8 @@ class BufferPoolManager {
   void FlushAllPagesUnsafe();
   void FlushAllPages();
   auto GetPinCount(page_id_t page_id) -> std::optional<size_t>;
-
+  auto GetPageIdFromFrame(frame_id_t frame_id)->page_id_t;
+  auto FindFrameId(page_id_t page_id)->frame_id_t;
  private:
   /** @brief The number of frames in the buffer pool. */
   const size_t num_frames_;
@@ -155,7 +156,7 @@ class BufferPoolManager {
 
   /** @brief A pointer to the disk scheduler. Shared with the page guards for flushing. */
   std::shared_ptr<DiskScheduler> disk_scheduler_;
-
+  std::shared_ptr<DiskManager> disk_manager_;
   /**
    * @brief A pointer to the log manager.
    *

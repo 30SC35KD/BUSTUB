@@ -58,7 +58,7 @@ class Context {
 
   // Save the root page id here so that it's easier to know if the current page is the root page.
   page_id_t root_page_id_{INVALID_PAGE_ID};
-
+  int size_{0};
   // Store the write guards of the pages that you're modifying here.
   std::deque<WritePageGuard> write_set_;
 
@@ -94,7 +94,7 @@ class BPlusTree {
   auto GetValue(const KeyType &key, std::vector<ValueType> *result) -> bool;
 
   // Return the page id of the root node
-  auto GetRootPageId() -> page_id_t;
+  auto GetRootPageId() const -> page_id_t;
 
   // Index iterator
   auto Begin() -> INDEXITERATOR_TYPE;
@@ -116,7 +116,12 @@ class BPlusTree {
   void RemoveFromFile(const std::filesystem::path &file_name);
 
   void BatchOpsFromFile(const std::filesystem::path &file_name);
-
+  void Split(BPlusTreePage *page, Context *ctx);
+  void Up(BPlusTreePage *page, BPlusTreePage * new_page, const KeyType &mid, Context *ctx);
+  void Adjust(BPlusTreePage *page,InternalPage *p_page,int index, Context *ctx);
+  bool Brother(BPlusTreePage *page,InternalPage *p_page,int index, Context *ctx);
+  void Parent(BPlusTreePage *page, InternalPage *p_page, int index, Context *ctx);
+  auto OptimisticInsert(const KeyType &key, const ValueType &value) -> bool;
  private:
   void ToGraph(page_id_t page_id, const BPlusTreePage *page, std::ofstream &out);
 

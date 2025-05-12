@@ -18,7 +18,7 @@
 #include <thread>  // NOLINT
 #include <vector>
 #include "gtest/gtest.h"
-
+#include <iostream>
 namespace bustub {
 
 /**
@@ -78,6 +78,7 @@ class InstrumentedSkipList : public SkipList<int, Compare, MaxHeight, Seed> {
 };
 
 TEST(SkipListTest, IntegrityCheckTest) {
+  
   InstrumentedSkipList<int> list;
 
   // All the keys we will insert into the skip list (1 to 20).
@@ -331,7 +332,7 @@ TEST(SkipListTest, ConcurrentReadTest) {
   const int num_threads = 8;
   std::vector<std::thread> threads;
   threads.reserve(num_threads);
-
+  
   // Note: you might want to first try use a smaller number of elements
   // if you are running this test on local machine.
   const int total_num_elements = num_threads * 100000;
@@ -339,8 +340,9 @@ TEST(SkipListTest, ConcurrentReadTest) {
   // Insert some elements into the skip list
   for (int i = 0; i < total_num_elements; ++i) {
     list->Insert(i);
+    //std::cout<<i<<"  ";
   }
-
+  
   // Function to perform concurrent reads
   auto read_task = [&list](int start, int end) {
     for (int i = start; i < end; ++i) {

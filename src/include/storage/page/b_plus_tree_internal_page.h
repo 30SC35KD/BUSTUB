@@ -70,6 +70,15 @@ class BPlusTreeInternalPage : public BPlusTreePage {
    *
    * @return The string representation of all keys in the current internal page
    */
+  auto Next(const KeyType &key, const KeyComparator &comparator) const -> page_id_t;
+  void Insert(const KeyType &key, const ValueType &value, const KeyComparator &comparator) ;
+  KeyType Give(BPlusTreeInternalPage *page);
+  int GetIndex(page_id_t page_id) const ;
+ void L_Lend(BPlusTreeInternalPage *bro_page, BPlusTreeInternalPage *parent, int index);
+  void R_Lend(BPlusTreeInternalPage *bro_page, BPlusTreeInternalPage *parent, int index);
+  void Merge(BPlusTreeInternalPage *sibling, const KeyType &parent_key);
+  auto InsertSafe()const -> bool;
+  auto DeleteSafe(bool t)const -> bool;
   auto ToString() const -> std::string {
     std::string kstr = "(";
     bool first = true;
@@ -90,11 +99,11 @@ class BPlusTreeInternalPage : public BPlusTreePage {
     return kstr;
   }
 
- private:
+ //private:
   // Array members for page data.
   KeyType key_array_[INTERNAL_PAGE_SLOT_CNT];
   ValueType page_id_array_[INTERNAL_PAGE_SLOT_CNT];
-  // (Spring 2025) Feel free to add more fields and helper functions below if needed
+  //c (Spring 2025) Feel free to add more fields and helper functions below if needed
 };
 
 }  // namespace bustub

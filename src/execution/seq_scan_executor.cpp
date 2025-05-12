@@ -19,10 +19,13 @@ namespace bustub {
  * @param exec_ctx The executor context
  * @param plan The sequential scan plan to be executed
  */
-SeqScanExecutor::SeqScanExecutor(ExecutorContext *exec_ctx, const SeqScanPlanNode *plan) : AbstractExecutor(exec_ctx) {}
+SeqScanExecutor::SeqScanExecutor(ExecutorContext *exec_ctx, const SeqScanPlanNode *plan) : AbstractExecutor(exec_ctx) {plan_=plan;}
 
 /** Initialize the sequential scan */
-void SeqScanExecutor::Init() { throw NotImplementedException("SeqScanExecutor is not implemented"); }
+void SeqScanExecutor::Init() { //throw NotImplementedException("SeqScanExecutor is not implemented"); 
+dsadsa 
+    
+}
 
 /**
  * Yield the next tuple from the sequential scan.

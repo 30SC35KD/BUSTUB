@@ -23,7 +23,7 @@ namespace bustub {
 
 using bustub::DiskManagerUnlimitedMemory;
 
-TEST(BPlusTreeTests, DISABLED_BasicInsertTest) {
+TEST(BPlusTreeTests, BasicInsertTest) {
   // create KeyComparator and index schema
   auto key_schema = ParseCreateStatement("a bigint");
   GenericComparator<8> comparator(key_schema.get());
@@ -56,7 +56,7 @@ TEST(BPlusTreeTests, DISABLED_BasicInsertTest) {
   delete bpm;
 }
 
-TEST(BPlusTreeTests, DISABLED_InsertTest1NoIterator) {
+TEST(BPlusTreeTests, InsertTest1NoIterator) {
   // create KeyComparator and index schema
   auto key_schema = ParseCreateStatement("a bigint");
   GenericComparator<8> comparator(key_schema.get());
@@ -72,6 +72,7 @@ TEST(BPlusTreeTests, DISABLED_InsertTest1NoIterator) {
 
   std::vector<int64_t> keys = {1, 2, 3, 4, 5};
   for (auto key : keys) {
+    //std::cout<<key << std::endl;
     int64_t value = key & 0xFFFFFFFF;
     rid.Set(static_cast<int32_t>(key >> 32), value);
     index_key.SetFromInteger(key);
@@ -95,7 +96,7 @@ TEST(BPlusTreeTests, DISABLED_InsertTest1NoIterator) {
   delete bpm;
 }
 
-TEST(BPlusTreeTests, DISABLED_InsertTest2) {
+TEST(BPlusTreeTests, InsertTest2) {
   // create KeyComparator and index schema
   auto key_schema = ParseCreateStatement("a bigint");
   GenericComparator<8> comparator(key_schema.get());
@@ -138,7 +139,7 @@ TEST(BPlusTreeTests, DISABLED_InsertTest2) {
     current_key = current_key + 1;
   }
 
-  EXPECT_EQ(current_key, keys.size() + 1);
+  EXPECT_EQ(current_key, keys.size()+1 );
 
   start_key = 3;
   current_key = start_key;

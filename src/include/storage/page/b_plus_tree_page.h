@@ -57,7 +57,11 @@ class BPlusTreePage {
   auto GetMaxSize() const -> int;
   void SetMaxSize(int max_size);
   auto GetMinSize() const -> int;
-
+  void SetParentID(int p);
+  void SetPageID(int p);
+  auto GetPageID() const -> int { return page_id_; }
+  auto GetParentID() const -> int { return parent_id_; }
+  
   /*
    * TODO(P2): Remove __attribute__((__unused__)) if you intend to use the fields.
    */
@@ -68,6 +72,8 @@ class BPlusTreePage {
   int size_ __attribute__((__unused__));
   // Max number of key & value pairs in a page
   int max_size_ __attribute__((__unused__));
+  int page_id_;
+  int parent_id_;
 };
 
 }  // namespace bustub

@@ -1,3 +1,4 @@
+make b_plus_tree_delete_test -j$(nproc)
 /**
  * deadlock_detection_test.cpp
  */

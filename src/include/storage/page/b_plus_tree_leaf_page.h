@@ -17,7 +17,7 @@
 #include <vector>
 
 #include "storage/page/b_plus_tree_page.h"
-
+#include "storage/page/b_plus_tree_internal_page.h"
 namespace bustub {
 
 #define B_PLUS_TREE_LEAF_PAGE_TYPE BPlusTreeLeafPage<KeyType, ValueType, KeyComparator>
@@ -50,6 +50,7 @@ namespace bustub {
  */
 INDEX_TEMPLATE_ARGUMENTS
 class BPlusTreeLeafPage : public BPlusTreePage {
+  using BPlusTreeInternalPage = BPlusTreeInternalPage<KeyType, page_id_t, KeyComparator>;
  public:
   // Delete all constructor / destructor to ensure memory safety
   BPlusTreeLeafPage() = delete;
@@ -60,8 +61,8 @@ class BPlusTreeLeafPage : public BPlusTreePage {
   // Helper methods
   auto GetNextPageId() const -> page_id_t;
   void SetNextPageId(page_id_t next_page_id);
-  auto KeyAt(int index) const -> KeyType;
 
+  auto KeyAt(int index) const -> KeyType;
   /**
    * @brief For test only return a string representing all keys in
    * this leaf page formatted as "(key1,key2,key3,...)"
@@ -86,9 +87,19 @@ class BPlusTreeLeafPage : public BPlusTreePage {
 
     return kstr;
   }
-
- private:
+  
+auto Find(const KeyType &key, ValueType *value,const KeyComparator &comparator) const -> bool;
+void Insert(const KeyType &key, const ValueType &value, const KeyComparator &comparator) ;
+void Give(BPlusTreeLeafPage *page);
+void Remove(const KeyType &key, const KeyComparator &comparator);
+void L_Lend(BPlusTreeLeafPage *bro_page,BPlusTreeInternalPage *parent,int index);
+void R_Lend(BPlusTreeLeafPage *bro_page,BPlusTreeInternalPage *parent,int index);
+void Merge(BPlusTreeLeafPage *sibling);
+auto InsertSafe()const -> bool;
+auto DeleteSafe(bool t)const -> bool;
+ //private:
   page_id_t next_page_id_;
+
   // Array members for page data.
   KeyType key_array_[LEAF_PAGE_SLOT_CNT];
   ValueType rid_array_[LEAF_PAGE_SLOT_CNT];

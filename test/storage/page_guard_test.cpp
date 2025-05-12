@@ -23,17 +23,17 @@ namespace bustub {
 const size_t FRAMES = 10;
 const size_t K_DIST = 2;
 
-TEST(PageGuardTest, DISABLED_DropTest) {
+TEST(PageGuardTest, DropTest) {
   auto disk_manager = std::make_shared<DiskManagerUnlimitedMemory>();
   auto bpm = std::make_shared<BufferPoolManager>(FRAMES, disk_manager.get(), K_DIST);
 
   {
     const auto pid0 = bpm->NewPage();
+   
     auto page0 = bpm->WritePage(pid0);
 
     // The page should be pinned.
     ASSERT_EQ(1, bpm->GetPinCount(pid0));
-
     // A drop should unpin the page.
     page0.Drop();
     ASSERT_EQ(0, bpm->GetPinCount(pid0));
@@ -44,6 +44,7 @@ TEST(PageGuardTest, DISABLED_DropTest) {
   }  // Destructor should be called. Useless but should not cause issues.
 
   const auto pid1 = bpm->NewPage();
+
   const auto pid2 = bpm->NewPage();
 
   {
@@ -75,6 +76,7 @@ TEST(PageGuardTest, DISABLED_DropTest) {
   std::vector<page_id_t> page_ids;
   {
     // Fill up the BPM.
+    
     std::vector<WritePageGuard> guards;
     for (size_t i = 0; i < FRAMES; i++) {
       const auto new_pid = bpm->NewPage();
@@ -82,9 +84,11 @@ TEST(PageGuardTest, DISABLED_DropTest) {
       ASSERT_EQ(1, bpm->GetPinCount(new_pid));
       page_ids.push_back(new_pid);
     }
+    
   }  // This drops all of the guards.
 
   for (size_t i = 0; i < FRAMES; i++) {
+
     ASSERT_EQ(0, bpm->GetPinCount(page_ids[i]));
   }
 
@@ -112,7 +116,7 @@ TEST(PageGuardTest, DISABLED_DropTest) {
   disk_manager->ShutDown();
 }
 
-TEST(PageGuardTest, DISABLED_MoveTest) {
+TEST(PageGuardTest, MoveTest) {
   auto disk_manager = std::make_shared<DiskManagerUnlimitedMemory>();
   auto bpm = std::make_shared<BufferPoolManager>(FRAMES, disk_manager.get(), K_DIST);
 
