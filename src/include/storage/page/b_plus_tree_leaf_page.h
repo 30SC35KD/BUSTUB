@@ -88,13 +88,13 @@ class BPlusTreeLeafPage : public BPlusTreePage {
     return kstr;
   }
   
-auto Find(const KeyType &key, ValueType *value,const KeyComparator &comparator) const -> bool;
+auto Find(const KeyType &key, ValueType *value,const KeyComparator &comparator) const -> bool;//寻找叶节点里有没有这个键
 void Insert(const KeyType &key, const ValueType &value, const KeyComparator &comparator) ;
 void Give(BPlusTreeLeafPage *page);
 void Remove(const KeyType &key, const KeyComparator &comparator);
 void L_Lend(BPlusTreeLeafPage *bro_page,BPlusTreeInternalPage *parent,int index);
 void R_Lend(BPlusTreeLeafPage *bro_page,BPlusTreeInternalPage *parent,int index);
-void Merge(BPlusTreeLeafPage *sibling);
+void Merge(BPlusTreeLeafPage *sibling);//合并，由于叶节点的特殊性，不需要父节点参与
 auto InsertSafe()const -> bool;
 auto DeleteSafe(bool t)const -> bool;
  //private:

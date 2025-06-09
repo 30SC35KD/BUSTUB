@@ -72,11 +72,11 @@ class BPlusTreeInternalPage : public BPlusTreePage {
    */
   auto Next(const KeyType &key, const KeyComparator &comparator) const -> page_id_t;
   void Insert(const KeyType &key, const ValueType &value, const KeyComparator &comparator) ;
-  KeyType Give(BPlusTreeInternalPage *page);
-  int GetIndex(page_id_t page_id) const ;
- void L_Lend(BPlusTreeInternalPage *bro_page, BPlusTreeInternalPage *parent, int index);
-  void R_Lend(BPlusTreeInternalPage *bro_page, BPlusTreeInternalPage *parent, int index);
-  void Merge(BPlusTreeInternalPage *sibling, const KeyType &parent_key);
+  KeyType Give(BPlusTreeInternalPage *page);//分裂时给出去一半元素
+  int GetIndex(page_id_t page_id) const ;//获取某指针的索引
+ void L_Lend(BPlusTreeInternalPage *bro_page, BPlusTreeInternalPage *parent, int index);//从左节点借
+  void R_Lend(BPlusTreeInternalPage *bro_page, BPlusTreeInternalPage *parent, int index);//从右节点借
+  void Merge(BPlusTreeInternalPage *sibling, const KeyType &parent_key);//两节点合并
   auto InsertSafe()const -> bool;
   auto DeleteSafe(bool t)const -> bool;
   auto ToString() const -> std::string {

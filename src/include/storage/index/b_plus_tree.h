@@ -116,11 +116,11 @@ class BPlusTree {
   void RemoveFromFile(const std::filesystem::path &file_name);
 
   void BatchOpsFromFile(const std::filesystem::path &file_name);
-  void Split(BPlusTreePage *page, Context *ctx);
-  void Up(BPlusTreePage *page, BPlusTreePage * new_page, const KeyType &mid, Context *ctx);
-  void Adjust(BPlusTreePage *page,InternalPage *p_page,int index, Context *ctx);
-  bool Brother(BPlusTreePage *page,InternalPage *p_page,int index, Context *ctx);
-  void Parent(BPlusTreePage *page, InternalPage *p_page, int index, Context *ctx);
+  void Split(BPlusTreePage *page, Context *ctx);//用于插入时，分裂节点
+  void Up(BPlusTreePage *page, BPlusTreePage * new_page, const KeyType &mid, Context *ctx);//插入时，向上递归处理
+  void Adjust(BPlusTreePage *page,InternalPage *p_page,int index, Context *ctx);//删除时，调整节点关系
+  bool Brother(BPlusTreePage *page,InternalPage *p_page,int index, Context *ctx);//是否存在兄弟可以借
+  void Parent(BPlusTreePage *page, InternalPage *p_page, int index, Context *ctx);//删除时向父节点求助
   auto OptimisticInsert(const KeyType &key, const ValueType &value) -> bool;
  private:
   void ToGraph(page_id_t page_id, const BPlusTreePage *page, std::ofstream &out);

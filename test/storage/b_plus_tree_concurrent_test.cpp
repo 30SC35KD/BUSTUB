@@ -174,6 +174,11 @@ void InsertTest1Call() {
 }
 
 void InsertTest2Call() {
+  //数据量100可以，1000不行；
+  //单线程也不能过1000
+  //test1也不允许1000
+  //100的数据量可以过任意测试的多线程
+  //扩容可以解决一些数据量1000的问题
   for (size_t iter = 0; iter < NUM_ITERS; iter++) {
     // create KeyComparator and index schema
     auto key_schema = ParseCreateStatement("a bigint");
