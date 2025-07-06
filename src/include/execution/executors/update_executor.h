@@ -48,8 +48,10 @@ class UpdateExecutor : public AbstractExecutor {
 
   /** Metadata identifying the table that should be updated */
   const TableInfo *table_info_;
-
+  int rows_updated_{0};  // Number of rows inserted
   /** The child executor to obtain value from */
   std::unique_ptr<AbstractExecutor> child_executor_;
+  TableHeap *table_heap_;
+  bool executed_{false};  // Whether the insert has been executed
 };
 }  // namespace bustub

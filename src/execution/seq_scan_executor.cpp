@@ -26,7 +26,7 @@ SeqScanExecutor::SeqScanExecutor(ExecutorContext *exec_ctx, const SeqScanPlanNod
 void SeqScanExecutor::Init() { //throw NotImplementedException("SeqScanExecutor is not implemented"); 
     auto table_oid = plan_->GetTableOid();
     auto catalog = exec_ctx_->GetCatalog();
-    auto table_info = catalog->GetTable(table_oid);
+    auto table_info = catalog->GetTable(table_oid).get();
     table_heap_ = table_info->table_.get();
     table_iter_ = std::make_unique<TableIterator>(table_heap_->MakeIterator()) ;
 }
@@ -45,8 +45,10 @@ auto SeqScanExecutor::Next(Tuple *tuple, RID *rid) -> bool {
         *rid = table_iter_->GetRID();
         ++(*table_iter_);  // 移动到下一个元组
         auto predicate = plan_->filter_predicate_;
+       
         // 如果有谓词，检查元组是否符合条件
-        if (predicate!=nullptr||predicate->Evaluate(tuple, plan_->OutputSchema()).GetAs<bool>()) {
+        if (predicate==nullptr||predicate->Evaluate(tuple, plan_->OutputSchema()).GetAs<bool>()) {
+          if(!meta.is_deleted_) 
           return true;  // 返回符合条件的元组
         }
       }

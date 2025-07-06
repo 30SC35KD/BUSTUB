@@ -41,6 +41,12 @@ class InsertExecutor : public AbstractExecutor {
  private:
   /** The insert plan node to be executed*/
   const InsertPlanNode *plan_;
+  int rows_inserted_{0};  // Number of rows inserted
+  bool executed_{false};  // Whether the insert has been executed
+  std::unique_ptr<AbstractExecutor> child_executor_;
+  TableHeap *table_heap_;
+
+  
 };
 
 }  // namespace bustub
